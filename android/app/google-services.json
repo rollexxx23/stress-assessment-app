@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "495328520749",
+    "project_id": "stress-assessment-a159f",
+    "storage_bucket": "stress-assessment-a159f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495328520749:android:eb1d957dec798d7f58e6a4",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkgNhlQVaXcXPMj2ffNftPX1XTNd5jXXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
