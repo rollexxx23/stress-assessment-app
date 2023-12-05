@@ -14,6 +14,7 @@ class RecordVoiceScreen extends StatefulWidget {
 class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
   // FlutterSoundRecorder _soundRecorder = FlutterSoundRecorder();
   bool _isRecording = false;
+  double value = 60;
   NoiseReading? _latestReading;
   StreamSubscription<NoiseReading>? _noiseSubscription;
   NoiseMeter? noiseMeter;
@@ -38,6 +39,7 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
 
     setState(() {
       _latestReading = noiseReading;
+      value = value;
     });
   }
 

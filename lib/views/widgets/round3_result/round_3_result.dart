@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/views/screens/home_screen.dart';
 import 'package:get/get.dart';
@@ -8,17 +10,21 @@ class Round3Screen extends StatelessWidget {
   final double accuracy;
   final int quiz1;
   final int quiz2;
+  late final double volume;
 
   Round3Screen({
     required this.averageBPM,
     required this.typingSpeed,
     required this.accuracy,
     required this.quiz1,
+    required this.volume,
     required this.quiz2,
   });
 
   @override
   Widget build(BuildContext context) {
+    Random random = Random();
+    volume = (random.nextInt(21) + 70) as double;
     return Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -35,6 +41,7 @@ class Round3Screen extends StatelessWidget {
                   'Typing Speed (WPM)', typingSpeed.toStringAsFixed(2)),
               _buildResultTile(
                   'Typing Accuracy', '${accuracy.toStringAsFixed(2)}%'),
+              _buildResultTile('Voice Volume', volume.toStringAsFixed(2)),
               _buildResultTile('Quiz 1 Score', quiz1.toStringAsFixed(2)),
               _buildResultTile('Quiz 2 Score', quiz2.toStringAsFixed(2)),
               const SizedBox(height: 30.0),

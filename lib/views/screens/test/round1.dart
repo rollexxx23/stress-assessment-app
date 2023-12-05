@@ -17,6 +17,7 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
   double? efficiency = 0;
   double? voicePitch;
   double? voiceVolume;
+  double hrv = 00.0;
 
   late PageController _pageController;
   late AnimationController _controller;
@@ -35,7 +36,7 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
   }
 
   void startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
       if (_currentPage < 3 - 1) {
         _currentPage++;
         _pageController.animateToPage(
@@ -59,14 +60,6 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final Map<int, Widget Function()> widgetMap = {
-      0: () => round1_1(),
-      1: () => round1_2(),
-      2: () => round1_3(),
-      3: () => round1_4(),
-      4: () => round1_5(),
-    };
-
     return SafeArea(
       child: Scaffold(
         body: PageView.builder(
@@ -114,7 +107,6 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
           ),
           const SizedBox(height: 20.0),
           getWidgetForIndex(index),
-          (index >= 2) ? Container() : BpmMeasure()
         ],
       ),
     );
@@ -137,18 +129,36 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
   }
 
   Widget round1_1() {
-    return const Text(
-      'Welcome to Round 1, here you will be measured without any acute stress. Please Perform The Tasks As Instructed',
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 20),
+    return Column(
+      children: [
+        const Text(
+          'Welcome to Round 1, here you will be measured without any acute stress. Please Perform The Tasks As Instructed',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+        BpmMeasure(
+          onDataPassed: (val) {
+            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
+          },
+        )
+      ],
     );
   }
 
   Widget round1_2() {
-    return const Text(
-      'Welcome to Round 1.2, Here Your HRV as well as Facial Expression will be recoreded under stress-free condition',
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 20),
+    return Column(
+      children: [
+        const Text(
+          'Welcome to Round 1.2, Here Your HRV as well as Facial Expression will be recoreded under stress-free condition',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+        BpmMeasure(
+          onDataPassed: (val) {
+            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
+          },
+        )
+      ],
     );
   }
 
@@ -172,7 +182,7 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
 
   Widget round1_5() {
     return ResultScreen(
-        averageBPM: 0,
+        averageBPM: hrv,
         typingSpeed: wpm ?? 0,
         accuracy: efficiency ?? 0,
         voicePitch: voicePitch ?? 0,

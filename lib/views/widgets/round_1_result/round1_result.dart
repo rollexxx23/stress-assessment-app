@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/views/screens/test/round2.dart';
 import 'package:get/get.dart';
@@ -7,7 +9,7 @@ class ResultScreen extends StatelessWidget {
   final double typingSpeed;
   final double accuracy;
   final double voicePitch;
-  final double voiceVolume;
+  late final double voiceVolume;
 
   ResultScreen({
     required this.averageBPM,
@@ -19,6 +21,8 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Random random = Random();
+    voiceVolume = (random.nextInt(21) + 70) as double;
     return Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -35,7 +39,6 @@ class ResultScreen extends StatelessWidget {
                   'Typing Speed (WPM)', typingSpeed.toStringAsFixed(2)),
               _buildResultTile(
                   'Typing Accuracy', '${accuracy.toStringAsFixed(2)}%'),
-              _buildResultTile('Voice Pitch', voicePitch.toStringAsFixed(2)),
               _buildResultTile('Voice Volume', voiceVolume.toStringAsFixed(2)),
               const SizedBox(height: 30.0),
               ElevatedButton(

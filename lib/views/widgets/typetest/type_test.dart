@@ -27,7 +27,7 @@ class _TypeTestWidgetState extends State<TypeTestWidget> {
   @override
   void dispose() {
     // TODO: implement dispose
-    double wpm = max(0, (currentIdx - 1) * 4);
+    double wpm = max(0, (currentIdx - 1) * 2);
     double efficiency = (1 - (wrongWords.length) / currentIdx) * 100;
     widget.onDataPassed(wpm, efficiency);
     super.dispose();
