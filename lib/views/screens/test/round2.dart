@@ -137,17 +137,13 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
 
   Widget round2_1() {
     return Column(
-      children: [
-        const Text(
+      children: const [
+        Text(
           'Welcome to Round 2, The Round is divided into alternate rests and tests sessions',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20),
         ),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        BpmMeasure()
       ],
     );
   }
@@ -160,11 +156,7 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
             quiz1 = data;
           },
         ),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        const BpmMeasure()
       ],
     );
   }
@@ -172,10 +164,6 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
   Widget round2_3() {
     return TypeTestWidget(
       level: "2.4",
-      onDataPassed: (data1, data2) {
-        wpm = data1;
-        efficiency = data2;
-      },
     );
   }
 
@@ -187,21 +175,14 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
             quiz2 = data;
           },
         ),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        const BpmMeasure()
       ],
     );
   }
 
   Widget round2_5() {
     return RecordVoiceScreen(
-      onDataPassed: ((p0, p1) {
-        voicePitch = p1;
-        voiceVolume = p0;
-      }),
+      round: "2.5",
     );
   }
 

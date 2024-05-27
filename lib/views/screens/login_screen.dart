@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/controllers/services/firebase_auth_methods.dart';
+import 'package:frontend/controllers/services/auth.dart';
 import 'package:frontend/views/screens/signup_screen.dart';
 import 'package:get/get.dart';
 
@@ -14,14 +14,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController emailController;
   late TextEditingController pwController;
-
-  void loginUser() {
-    FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
-      email: emailController.text,
-      password: pwController.text,
-      context: context,
-    );
-  }
 
   @override
   void initState() {
@@ -61,68 +53,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 28,
                     fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 50),
-              Container(
-                width: 300, // Adjust the width as needed
-                height: 50, // Adjust the height as needed
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(38.0),
-                  color: const Color(0xFF8E97FD), // Use the color code
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/facebook.png"),
-                      const Text(
-                        "CONTINUE WITH FACEBOOK",
-                        style: TextStyle(
-                          color: Colors.white, // Text color
-                          fontSize: 15.0, // Text size
-                        ),
-                      ),
-                      const SizedBox(width: 0),
-                    ],
-                  ),
-                ),
-              ),
               const SizedBox(height: 30),
-              Container(
-                width: 300, // Adjust the width as needed
-                height: 50, // Adjust the height as needed
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(38.0),
-                  color: Colors.white, // Use the color code
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFF3F414E), // Border color
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/google.png"),
-                      const Text(
-                        "CONTINUE WITH GOOGLE",
-                        style: TextStyle(
-                          color: Colors.black, // Text color
-                          fontSize: 15.0, // Text size
-                        ),
-                      ),
-                      const SizedBox(width: 0),
-                    ],
-                  ),
-                ),
+              Image.asset(
+                "assets/login_image.png",
+                height: 200,
               ),
               const SizedBox(height: 30),
               const Center(
                 child: Text(
-                  "OR LOGIN WITH EMAIL",
+                  "LOGIN WITH EMAIL",
                   style: TextStyle(
                       color: Color(0xffA1A4B2),
                       fontSize: 14,
@@ -131,11 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 30),
               Container(
-                width: 300, // Adjust the width as needed
-                height: 50, // Adjust the height as needed
+                width: 300,
+                height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: const Color(0xFFE6E7EB), // Use the color code
+                  color: const Color(0xFFE6E7EB),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -145,10 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         hintText: "Email",
                         labelStyle: TextStyle(
-                          color: Colors
-                              .grey, // You can adjust the label text color
+                          color: Colors.grey,
                         ),
-                        border: InputBorder.none, // Remove the border
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
@@ -158,11 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 15,
               ),
               Container(
-                width: 300, // Adjust the width as needed
-                height: 50, // Adjust the height as needed
+                width: 300,
+                height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: const Color(0xFFE6E7EB), // Use the color code
+                  color: const Color(0xFFE6E7EB),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -173,10 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         hintText: "Pasword",
                         labelStyle: TextStyle(
-                          color: Colors
-                              .grey, // You can adjust the label text color
+                          color: Colors.grey,
                         ),
-                        border: InputBorder.none, // Remove the border
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
@@ -187,21 +124,24 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               InkWell(
                 onTap: () {
-                  loginUser();
+                  FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
+                      email: emailController.text,
+                      password: pwController.text,
+                      context: context);
                 },
                 child: Container(
-                  width: 300, // Adjust the width as needed
-                  height: 50, // Adjust the height as needed
+                  width: 300,
+                  height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(38.0),
-                    color: const Color(0xFF8E97FD), // Use the color code
+                    color: const Color(0xFF8E97FD),
                   ),
                   child: const Center(
                     child: Text(
                       "LOGIN",
                       style: TextStyle(
-                        color: Colors.white, // Text color
-                        fontSize: 15.0, // Text size
+                        color: Colors.white,
+                        fontSize: 15.0,
                       ),
                     ),
                   ),

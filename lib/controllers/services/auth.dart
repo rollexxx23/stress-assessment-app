@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class FirebaseAuthMethods {
         email: email,
         password: password,
       );
-      await sendEmailVerification(context);
+      // await sendEmailVerification(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -63,6 +64,23 @@ class FirebaseAuthMethods {
       showSnackBar(context, 'Verification Email Sent!');
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
+    }
+  }
+}
+
+class FirebaseService {
+  final CollectionReference _userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  Future<void> addUser(String email, String name) async {
+    try {
+      await _userCollection.add({
+        'email': email,
+        'name': name,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print("Error adding task: $e");
     }
   }
 }

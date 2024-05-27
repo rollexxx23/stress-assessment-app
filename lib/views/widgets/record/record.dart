@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:frontend/globals.dart';
 import 'package:noise_meter/noise_meter.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RecordVoiceScreen extends StatefulWidget {
-  final Function(double, double) onDataPassed;
-  RecordVoiceScreen({super.key, required this.onDataPassed});
+  String round = "";
+  RecordVoiceScreen({super.key, required round});
   @override
   _RecordVoiceScreenState createState() => _RecordVoiceScreenState();
 }
@@ -14,14 +15,11 @@ class RecordVoiceScreen extends StatefulWidget {
 class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
   // FlutterSoundRecorder _soundRecorder = FlutterSoundRecorder();
   bool _isRecording = false;
-  double value = 60;
-  NoiseReading? _latestReading;
   StreamSubscription<NoiseReading>? _noiseSubscription;
   NoiseMeter? noiseMeter;
   late String paragraph;
   @override
   void initState() {
-    // TODO: implement initState
     paragraph = generateRandomParagraph();
     super.initState();
   }
@@ -29,17 +27,14 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
   @override
   void dispose() {
     _noiseSubscription?.cancel();
-    widget.onDataPassed(
-        _latestReading?.meanDecibel ?? 0, _latestReading?.maxDecibel ?? 0);
+
     super.dispose();
   }
 
   void onData(NoiseReading noiseReading) {
-    print("called${noiseReading.meanDecibel}");
-
     setState(() {
-      _latestReading = noiseReading;
-      value = value;
+      voiceVolumeRound1.value = noiseReading.meanDecibel;
+      voicePitchRound1.value = noiseReading.maxDecibel;
     });
   }
 
@@ -78,10 +73,10 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Round 1.4, Here Your Voice will be recoreded under stress-free condition. Read Out The Given Paragraph',
+            Text(
+              'Welcome to Round ${widget.round}, Here Your Voice will be recoreded under stress-free condition. Read Out The Given Paragraph',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -112,11 +107,11 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: Text(
-                      'Noise: ${_latestReading?.meanDecibel.toStringAsFixed(2)} dB',
+                      'Noise: ${voiceVolumeRound1.value.toStringAsFixed(2)} dB',
                     ),
                   ),
                   Text(
-                    'Max: ${_latestReading?.maxDecibel.toStringAsFixed(2)} dB',
+                    'Max: ${voiceVolumeRound1.value.toStringAsFixed(2)} dB',
                   )
                 ])),
             ElevatedButton(

@@ -139,17 +139,13 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
 
   Widget round3_1() {
     return Column(
-      children: [
-        const Text(
+      children: const [
+        Text(
           'Welcome to Round 3, The Round is divided into alternate rests and tests sessions',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20),
         ),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        BpmMeasure()
       ],
     );
   }
@@ -160,11 +156,7 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
         QuizWidget(onDataPassed: (val) {
           quiz1 = val;
         }),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        const BpmMeasure()
       ],
     );
   }
@@ -172,7 +164,6 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
   Widget round3_3() {
     return TypeTestWidget(
       level: "3.3",
-      onDataPassed: (data1, data2) {},
     );
   }
 
@@ -182,21 +173,14 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
         QuizWidget(onDataPassed: (val) {
           quiz2 = val;
         }),
-        BpmMeasure(
-          onDataPassed: (val) {
-            hrv = (hrv + val.toDouble()) / (hrv == 0 ? 1 : 2);
-          },
-        )
+        const BpmMeasure()
       ],
     );
   }
 
   Widget round3_5() {
     return RecordVoiceScreen(
-      onDataPassed: ((p0, p1) {
-        voicePitch = p1;
-        voiceVolume = p0;
-      }),
+      round: "3.5",
     );
   }
 

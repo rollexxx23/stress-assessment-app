@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/globals.dart';
 
 class TypeTestWidget extends StatefulWidget {
   String level;
-  final Function(double, double) onDataPassed;
-  TypeTestWidget({super.key, required this.level, required this.onDataPassed});
+  TypeTestWidget({super.key, required this.level});
 
   @override
   State<TypeTestWidget> createState() => _TypeTestWidgetState();
@@ -26,10 +26,8 @@ class _TypeTestWidgetState extends State<TypeTestWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    double wpm = max(0, (currentIdx - 1) * 2);
-    double efficiency = (1 - (wrongWords.length) / currentIdx) * 100;
-    widget.onDataPassed(wpm, efficiency);
+    typingSpeedRound1.value = max(0, (currentIdx - 1) * 2);
+    accuracyRound1.value = (1 - (wrongWords.length) / currentIdx) * 100;
     super.dispose();
   }
 

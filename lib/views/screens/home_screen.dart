@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controllers/services/testdata_crud.dart';
 import 'package:frontend/views/screens/test/round1.dart';
 import 'package:get/get.dart';
 
@@ -146,6 +147,7 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    TestDataCrud().createRoom();
                                     Get.to(Round1());
                                   },
                                   child: Container(
