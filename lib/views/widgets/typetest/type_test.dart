@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:frontend/globals.dart';
 
 class TypeTestWidget extends StatefulWidget {
+  int round;
   String level;
-  TypeTestWidget({super.key, required this.level});
+  TypeTestWidget({super.key, required this.level, required this.round});
 
   @override
   State<TypeTestWidget> createState() => _TypeTestWidgetState();
@@ -26,8 +27,17 @@ class _TypeTestWidgetState extends State<TypeTestWidget> {
 
   @override
   void dispose() {
-    typingSpeedRound1.value = max(0, (currentIdx - 1) * 2);
-    accuracyRound1.value = (1 - (wrongWords.length) / currentIdx) * 100;
+    if (widget.round == 1) {
+      typingSpeedRound1.value = max(0, (currentIdx - 1) * 2);
+      accuracyRound1.value = (1 - (wrongWords.length) / currentIdx) * 100;
+    } else if (widget.round == 2) {
+      wpm_2.value = max(0, (currentIdx - 1) * 2);
+      efficiency_2.value = (1 - (wrongWords.length) / currentIdx) * 100;
+    } else {
+      wpm_3.value = max(0, (currentIdx - 1) * 2);
+      efficiency_3.value = (1 - (wrongWords.length) / currentIdx) * 100;
+    }
+
     super.dispose();
   }
 

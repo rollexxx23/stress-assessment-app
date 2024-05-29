@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/views/widgets/measure/bpm_measure.dart';
 import 'package:frontend/views/widgets/record/record.dart';
+import 'package:frontend/views/widgets/round2_quiz/round_2_quiz.dart';
 
 import 'package:frontend/views/widgets/typetest/type_test.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/Round2_quiz/round_2_quiz.dart';
 import '../../widgets/round3_result/round_3_result.dart';
 import '../home_screen.dart';
 
@@ -17,13 +17,6 @@ class Round3 extends StatefulWidget {
 }
 
 class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
-  double? wpm = 0;
-  double? efficiency = 0;
-  int? quiz1 = 0;
-  int? quiz2 = 0;
-  double? voicePitch = 0;
-  double? voiceVolume = 0;
-  double hrv = 0.0;
   late PageController _pageController;
   late AnimationController _controller;
   late int _currentPage = 0;
@@ -35,14 +28,14 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
     _pageController = PageController(initialPage: _currentPage);
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 30),
+      duration: const Duration(seconds: 15),
     )..forward();
     startAutoScroll();
   }
 
   void startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      if (_currentPage < 3 - 1) {
+    _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      if (_currentPage < page_count - 1) {
         _currentPage++;
         _pageController.animateToPage(
           _currentPage,
@@ -139,13 +132,15 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
 
   Widget round3_1() {
     return Column(
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Welcome to Round 3, The Round is divided into alternate rests and tests sessions',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20),
         ),
-        BpmMeasure()
+        BpmMeasure(
+          round: 3,
+        )
       ],
     );
   }
@@ -153,10 +148,10 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
   Widget round3_2() {
     return Column(
       children: [
-        QuizWidget(onDataPassed: (val) {
-          quiz1 = val;
-        }),
-        const BpmMeasure()
+        QuizWidget(round: 2),
+        BpmMeasure(
+          round: 3,
+        )
       ],
     );
   }
@@ -164,34 +159,25 @@ class _Round3State extends State<Round3> with SingleTickerProviderStateMixin {
   Widget round3_3() {
     return TypeTestWidget(
       level: "3.3",
+      round: 3,
     );
   }
 
   Widget round3_4() {
     return Column(
-      children: [
-        QuizWidget(onDataPassed: (val) {
-          quiz2 = val;
-        }),
-        const BpmMeasure()
-      ],
+      children: [QuizWidget(round: 3), BpmMeasure(round: 3)],
     );
   }
 
   Widget round3_5() {
     return RecordVoiceScreen(
       round: "3.5",
+      roundIdx: 3,
     );
   }
 
   Widget round3_6() {
-    return Round3Screen(
-        averageBPM: hrv,
-        typingSpeed: wpm ?? 0,
-        accuracy: efficiency ?? 0,
-        quiz1: quiz1 ?? 0,
-        volume: voiceVolume ?? 0,
-        quiz2: quiz2 ?? 0);
+    return const Round3Screen();
   }
 }
 

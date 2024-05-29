@@ -34,6 +34,8 @@ dependencies:
   noise_meter: ^5.0.2
   permission_handler: ^11.0.1
   http: ^0.13.5
+  path_provider:
+  speech_to_text: ^6.1.1
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
 dev_dependencies:

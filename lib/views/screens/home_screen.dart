@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/controllers/services/testdata_crud.dart';
 import 'package:frontend/views/screens/test/round1.dart';
+import 'package:frontend/views/widgets/record/record.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -86,7 +88,9 @@ class HomeScreen extends StatelessWidget {
                             const SizedBox(height: 20),
                             InkWell(
                               onTap: () {
-                                //Get.to(QuizScreen());
+                                Get.to(Scaffold(
+                                    body: RecordVoiceScreen(
+                                        round: "1", roundIdx: 1)));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,

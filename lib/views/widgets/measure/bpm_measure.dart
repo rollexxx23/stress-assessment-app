@@ -7,7 +7,8 @@ import 'package:wakelock/wakelock.dart';
 import '../chart.dart';
 
 class BpmMeasure extends StatefulWidget {
-  const BpmMeasure({super.key});
+  int round;
+  BpmMeasure({super.key, required this.round});
   @override
   BpmMeasureView createState() {
     return BpmMeasureView();
@@ -21,7 +22,6 @@ class BpmMeasureView extends State<BpmMeasure>
   CameraController? _controller;
   final double _alpha = 0.3;
   AnimationController? _animationController;
-  double _iconScale = 1;
   double _bpm = 0;
   final int _fs = 30;
   final int _windowLen = 30 * 6;
@@ -35,9 +35,7 @@ class BpmMeasureView extends State<BpmMeasure>
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
     _animationController!.addListener(() {
-      setState(() {
-        _iconScale = 1.0 + _animationController!.value * 0.4;
-      });
+      setState(() {});
     });
   }
 
@@ -227,44 +225,50 @@ class BpmMeasureView extends State<BpmMeasure>
   }
 
   void _updateBPM() async {
-    List<SensorValue> _values;
-    double _avg;
-    int _n;
-    double _m;
-    double _threshold;
-    int _counter;
-    int _previous;
+    List<SensorValue> values;
+    double avg;
+    int n;
+    double m;
+    double threshold;
+    int counter;
+    int previous;
     while (_toggled) {
-      _values = List.from(_data);
-      _avg = 0;
-      _n = _values.length;
-      _m = 0;
-      _values.forEach((SensorValue value) {
-        _avg += value.value / _n;
-        if (value.value > _m) _m = value.value;
-      });
-      _threshold = (_m + _avg) / 2;
+      values = List.from(_data);
+      avg = 0;
+      n = values.length;
+      m = 0;
+      for (var value in values) {
+        avg += value.value / n;
+        if (value.value > m) m = value.value;
+      }
+      threshold = (m + avg) / 2;
       _bpm = 0;
-      _counter = 0;
-      _previous = 0;
-      for (int i = 1; i < _n; i++) {
-        if (_values[i - 1].value < _threshold &&
-            _values[i].value > _threshold) {
-          if (_previous != 0) {
-            _counter++;
-            _bpm +=
-                60000 / (_values[i].time.millisecondsSinceEpoch - _previous);
+      counter = 0;
+      previous = 0;
+      for (int i = 1; i < n; i++) {
+        if (values[i - 1].value < threshold && values[i].value > threshold) {
+          if (previous != 0) {
+            counter++;
+            _bpm += 60000 / (values[i].time.millisecondsSinceEpoch - previous);
           }
-          _previous = _values[i].time.millisecondsSinceEpoch;
+          previous = values[i].time.millisecondsSinceEpoch;
         }
       }
-      if (_counter > 0) {
-        _bpm = _bpm / _counter;
+      if (counter > 0) {
+        _bpm = _bpm / counter;
         setState(() {
           _bpm = (1 - _alpha) * _bpm + _alpha * _bpm;
         });
-        averageBPMRound1.value += _bpm;
-        averageBPMRound1.value /= 2;
+        if (widget.round == 1) {
+          averageBPMRound1.value += _bpm;
+          averageBPMRound1.value /= 2;
+        } else if (widget.round == 2) {
+          hrv_2.value += _bpm;
+          hrv_2.value /= 2;
+        } else {
+          hrv_3.value += _bpm;
+          hrv_3.value /= 2;
+        }
       }
       await Future.delayed(Duration(milliseconds: (1000 * 50 / 30).round()));
     }

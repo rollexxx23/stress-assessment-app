@@ -39,7 +39,7 @@ class TestDataCrud {
   int generateRandomId({int min = 10000, int max = 99999}) {
     Random random = Random();
     int val = min + random.nextInt(max - min + 1);
-    currRoomId.value = 89610;
-    return 89610;
+    currRoomId.value = val;
+    return val;
   }
 }

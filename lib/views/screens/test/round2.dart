@@ -10,18 +10,14 @@ import 'package:frontend/views/widgets/typetest/type_test.dart';
 import 'package:get/get.dart';
 
 class Round2 extends StatefulWidget {
+  const Round2({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _Round2State createState() => _Round2State();
 }
 
 class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
-  double? wpm = 0;
-  double? efficiency = 0;
-  int? quiz1 = 0;
-  int? quiz2 = 0;
-  double hrv = 0.0;
-  double? voicePitch = 0;
-  double? voiceVolume = 0;
   late PageController _pageController;
   late AnimationController _controller;
   late int _currentPage = 0;
@@ -39,8 +35,8 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
   }
 
   void startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      if (_currentPage < 3 - 1) {
+    _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      if (_currentPage < page_count - 1) {
         _currentPage++;
         _pageController.animateToPage(
           _currentPage,
@@ -137,13 +133,15 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
 
   Widget round2_1() {
     return Column(
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Welcome to Round 2, The Round is divided into alternate rests and tests sessions',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20),
         ),
-        BpmMeasure()
+        BpmMeasure(
+          round: 2,
+        )
       ],
     );
   }
@@ -152,11 +150,11 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         QuizWidget(
-          onDataPassed: (data) {
-            quiz1 = data;
-          },
+          round: 0,
         ),
-        const BpmMeasure()
+        BpmMeasure(
+          round: 2,
+        )
       ],
     );
   }
@@ -164,6 +162,7 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
   Widget round2_3() {
     return TypeTestWidget(
       level: "2.4",
+      round: 2,
     );
   }
 
@@ -171,11 +170,11 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         QuizWidget(
-          onDataPassed: (data) {
-            quiz2 = data;
-          },
+          round: 1,
         ),
-        const BpmMeasure()
+        BpmMeasure(
+          round: 2,
+        )
       ],
     );
   }
@@ -183,17 +182,12 @@ class _Round2State extends State<Round2> with SingleTickerProviderStateMixin {
   Widget round2_5() {
     return RecordVoiceScreen(
       round: "2.5",
+      roundIdx: 2,
     );
   }
 
   Widget round2_6() {
-    return Result2Screen(
-        averageBPM: hrv,
-        typingSpeed: wpm ?? 0,
-        accuracy: efficiency ?? 0,
-        volume: voiceVolume ?? 0,
-        quiz1: quiz1?.toInt() ?? 0,
-        quiz2: quiz2?.toInt() ?? 0);
+    return const Result2Screen();
   }
 }
 

@@ -1,24 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/controllers/services/testdata_crud.dart';
+import 'package:frontend/globals.dart';
 import 'package:frontend/views/screens/home_screen.dart';
 import 'package:get/get.dart';
 
 class Round3Screen extends StatefulWidget {
-  final double averageBPM;
-  final double typingSpeed;
-  final double accuracy;
-  final int quiz1;
-  final int quiz2;
-  late final double volume;
-
-  Round3Screen({
-    required this.averageBPM,
-    required this.typingSpeed,
-    required this.accuracy,
-    required this.quiz1,
-    required this.volume,
-    required this.quiz2,
+  const Round3Screen({
+    super.key,
   });
 
   @override
@@ -26,12 +16,17 @@ class Round3Screen extends StatefulWidget {
 }
 
 class _Round3ScreenState extends State<Round3Screen> {
-  late double voiceVolume;
   @override
   void initState() {
-    Random random = Random();
-    voiceVolume = (random.nextInt(21) + 70);
-    // TODO: implement initState
+    TestDataCrud().updateRoomData(currRoomId.value, {
+      "bpm_3": hrv_3.value,
+      "wpm_3": wpm_3.value,
+      "accuracy_3": efficiency_3.value,
+      "volume_3": voiceVolume_3.value,
+      "pitch_3": voicePitch_3.value,
+      "quiz_3": quiz1_3.value,
+      "quiz_4": quiz2_3.value,
+    });
     super.initState();
   }
 
@@ -50,15 +45,17 @@ class _Round3ScreenState extends State<Round3Screen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20),
               ),
+              _buildResultTile('Average BPM', hrv_3.value.toStringAsFixed(2)),
               _buildResultTile(
-                  'Average BPM', widget.averageBPM.toStringAsFixed(2)),
+                  'Typing Speed (WPM)', wpm_3.value.toStringAsFixed(2)),
+              _buildResultTile('Typing Accuracy',
+                  '${efficiency_3.value.toStringAsFixed(2)}%'),
               _buildResultTile(
-                  'Typing Speed (WPM)', widget.typingSpeed.toStringAsFixed(2)),
+                  'Voice Volume', voiceVolume_3.value.toStringAsFixed(2)),
               _buildResultTile(
-                  'Typing Accuracy', '${widget.accuracy.toStringAsFixed(2)}%'),
-              _buildResultTile('Voice Volume', voiceVolume.toStringAsFixed(2)),
-              _buildResultTile('Quiz 1 Score', widget.quiz1.toStringAsFixed(2)),
-              _buildResultTile('Quiz 2 Score', widget.quiz2.toStringAsFixed(2)),
+                  'Quiz 1 Score', quiz1_3.value.toStringAsFixed(2)),
+              _buildResultTile(
+                  'Quiz 2 Score', quiz2_3.value.toStringAsFixed(2)),
               const SizedBox(height: 30.0),
               ElevatedButton(
                 onPressed: () {

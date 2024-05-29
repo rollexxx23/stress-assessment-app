@@ -32,7 +32,7 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
 
   void startAutoScroll() {
     _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
-      if (_currentPage < 5 - 1) {
+      if (_currentPage < 5 - 1 && _currentPage != 1) {
         _currentPage++;
         _pageController.animateToPage(
           _currentPage,
@@ -125,13 +125,15 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
 
   Widget round1_1() {
     return Column(
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Welcome to Round 1, here you will be measured without any acute stress. Please Perform The Tasks As Instructed',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20),
         ),
-        BpmMeasure()
+        BpmMeasure(
+          round: 1,
+        )
       ],
     );
   }
@@ -170,6 +172,25 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
           style: const TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
         ),
+        const SizedBox(height: 20),
+        Center(
+          child: SizedBox(
+            width: 250,
+            child: ElevatedButton(
+              onPressed: () {
+                _currentPage++;
+                _pageController.animateToPage(
+                  _currentPage,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
+                _controller.reset();
+                _controller.forward();
+              },
+              child: const Text('Next'),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -177,14 +198,18 @@ class _Round1State extends State<Round1> with SingleTickerProviderStateMixin {
   Widget round1_3() {
     return TypeTestWidget(
       level: "1.3",
+      round: 1,
     );
   }
 
   Widget round1_4() {
-    return RecordVoiceScreen(round: "1.4");
+    return RecordVoiceScreen(
+      round: "1.4",
+      roundIdx: 1,
+    );
   }
 
   Widget round1_5() {
-    return ResultScreen();
+    return const ResultScreen();
   }
 }

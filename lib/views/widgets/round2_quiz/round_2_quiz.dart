@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controllers/ques_generator/ques_generator.dart';
+import 'package:frontend/globals.dart';
 import 'package:frontend/model/question.dart';
 
 class QuizWidget extends StatefulWidget {
-  final Function(int) onDataPassed;
-  QuizWidget({super.key, required this.onDataPassed});
+  int round;
+  QuizWidget({super.key, required this.round});
 
   @override
   State<QuizWidget> createState() => _QuizWidgetState();
@@ -19,7 +20,6 @@ class _QuizWidgetState extends State<QuizWidget> {
   late int score;
   @override
   void initState() {
-    // TODO: implement initState
     currentQuestionIndex = 0;
     selectedOption = -1;
     isSelected = false;
@@ -32,8 +32,15 @@ class _QuizWidgetState extends State<QuizWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    widget.onDataPassed(score);
+    if (widget.round == 0) {
+      quiz1_2.value = score;
+    } else if (widget.round == 1) {
+      quiz2_2.value = score;
+    } else if (widget.round == 2) {
+      quiz1_3.value = score;
+    } else if (widget.round == 3) {
+      quiz2_3.value = score;
+    }
     super.dispose();
   }
 
